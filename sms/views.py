@@ -1,10 +1,10 @@
-from rest_framework.generics import CreateAPIView, GenericAPIView
+from rest_framework.views import APIView
 from . import serializers
 from config.injector import injector
 from sms.services import WhatsAppServices, SMSServices
 
 
-class SendMessageMixin(GenericAPIView):
+class SendMessageMixin(APIView):
     serializer_class = serializers.MessageSerializer
     service_class = None
 
@@ -14,7 +14,6 @@ class SendMessageMixin(GenericAPIView):
 
 class WhatsAppSendMessages(SendMessageMixin):
     service_class = WhatsAppServices
-    queryset = None
 
     def create(self, request, *args, **kwargs):
         pass
@@ -22,7 +21,6 @@ class WhatsAppSendMessages(SendMessageMixin):
 
 class SMSSendMessages(SendMessageMixin):
     service_class = SMSServices
-    queryset = None
 
     def create(self, request, *args, **kwargs):
         pass
