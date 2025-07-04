@@ -160,6 +160,5 @@ cython_debug/
 .idea/
 ./vscode
 db.sqlite3
-*/migrations/0*
-excels.zip
+#*/migrations/0*
 #storage
