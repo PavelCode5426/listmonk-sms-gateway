@@ -21,6 +21,6 @@ EXPOSE 8000
 
 COPY entrypoint.sh entrypoint.sh
 COPY cron /etc/cron.d/process_message
-RUN chmod +x /entrypoint.sh
+RUN chmod +x entrypoint.sh
 
 ENTRYPOINT ["entrypoint.sh"]
