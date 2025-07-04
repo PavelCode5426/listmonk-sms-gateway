@@ -1,0 +1,12 @@
+version: '3.3'
+
+services:
+  api:
+    container_name: sms-gateway
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pavelcode5426-sms-gateway:latest
+    env_file:
+      - .env
