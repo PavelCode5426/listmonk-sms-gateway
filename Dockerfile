@@ -23,4 +23,4 @@ COPY config/docker/entrypoint.sh entrypoint.sh
 COPY config/docker/cron /etc/cron.d/process_message
 RUN chmod +x /entrypoint.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["entrypoint.sh"]
