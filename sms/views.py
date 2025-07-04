@@ -1,26 +1,15 @@
-from rest_framework.views import APIView
-from . import serializers
-from config.injector import injector
-from sms.services import WhatsAppServices, SMSServices
+from rest_framework.generics import CreateAPIView
+from . import serializers, models
+from .serializers import WhatsAppMessageSerializer
 
 
-class SendMessageMixin(APIView):
-    serializer_class = serializers.MessageSerializer
-    service_class = None
-
-    def get_service(self):
-        return injector.get(self.service_class)
+class SendMessageMixin(CreateAPIView):
+    queryset = models.Message.objects.all()
 
 
 class WhatsAppSendMessages(SendMessageMixin):
-    service_class = WhatsAppServices
-
-    def create(self, request, *args, **kwargs):
-        pass
+    serializer_class = WhatsAppMessageSerializer
 
 
 class SMSSendMessages(SendMessageMixin):
-    service_class = SMSServices
-
-    def create(self, request, *args, **kwargs):
-        pass
+    serializer_class = WhatsAppMessageSerializer

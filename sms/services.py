@@ -39,7 +39,7 @@ class WhatsAppServices(Services):
             "text": message,
             "linkPreview": True,
             "session": session,
-        })
+        }).json()
 
 
 class SMSServices(Services):
@@ -48,7 +48,7 @@ class SMSServices(Services):
         self.apikey = apikey
 
     def sendMessage(self, message: str, number: str):
-        return self.post('/send', dict(apikey=self.apikey, message=message, number=number))
+        return self.post('/send', dict(apikey=self.apikey, message=message, number=number)).json()
 
     def getBalance(self):
-        return self.get('/get/balance', dict(apikey=self.apikey))
+        return self.get('/get/balance', dict(apikey=self.apikey)).json()

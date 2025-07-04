@@ -14,6 +14,8 @@ class ServicesInjectorModule(Module):
         password = settings.WHATSAPP_API_PASSWORD
         return WhatsAppServices(host, username, password)
 
+    @singleton
+    @provider
     def provide_sms_api_service(self) -> SMSServices:
         host = settings.SMS_API_HOST
         apikey = settings.SMS_API_TOKEN
