@@ -1,1 +1,0 @@
-* * * * * root cd /code && python manage.py process_message >> /var/log/process_message.log 2>&1
