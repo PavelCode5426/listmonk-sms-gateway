@@ -36,7 +36,7 @@ class Command(BaseCommand):
                     message.save()
                 except Exception as e:
                     logging.error(str(e))
-            time.sleep(60000 * 5)
+            time.sleep(60)
 
     def process_sms(self, message, recipients):
         service = self.services['sms']
