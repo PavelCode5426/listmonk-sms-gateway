@@ -15,6 +15,8 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . .
 COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 8000
-CMD ["supervisord", "-n"]
+ENTRYPOINT ["/entrypoint.sh"]
