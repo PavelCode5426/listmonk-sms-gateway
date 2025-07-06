@@ -4,7 +4,7 @@ import time
 from django.core.management.base import BaseCommand
 
 from config.injector import injector
-from sms.models import Message
+from sms.models import Message, MessageRecipient
 from sms.services import WhatsAppServices, SMSServices
 
 
@@ -21,7 +21,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         while True:
-            messages = Message.objects.select_related('campaign').filter(success=False).all()
+            messages = Message.objects.filter(recipients__success=False).all()
 
             service = self.services['sms']
             balance = service.getBalance()
@@ -30,10 +30,8 @@ class Command(BaseCommand):
             for message in messages:
                 self.stdout.write(f"Procesando: {message.subject} using {message.using}")
                 try:
-                    recipients = message.recipients.all()
+                    recipients = message.recipients.select_related('recipient').filter(success=False).all()
                     getattr(self, f'process_{message.using}')(message, recipients)
-                    message.success = True
-                    message.save()
                 except Exception as e:
                     logging.error(str(e))
             time.sleep(60)
@@ -42,14 +40,14 @@ class Command(BaseCommand):
         service = self.services['sms']
         for recipient in recipients:
             cellnumber = recipient.attribs.get('phone')
-            response = service.sendMessage(f"{message.subject}\n{message.body}", cellnumber)
+            response = service.sendMessage(message.body, cellnumber)
 
     def process_whatsapp(self, message, recipients):
         service = self.services['whatsapp']
 
-        for recipient in recipients:
+        for message_recipient in recipients:
+            recipient = message_recipient.recipient
             cellnumber = recipient.attribs.get('whatsapp')
-
             if cellnumber is None:
                 logging.error(f"Recipients whatsapp are empty ID:{recipient.pk}")
                 continue
@@ -67,6 +65,8 @@ class Command(BaseCommand):
                 response = service.stopTyping(cellnumber)
 
             if response.status_code == 201:
-                response = service.sendMessage(cellnumber, f"{message.subject}\n{message.body}")
+                response = service.sendMessage(cellnumber, message.body)
 
+            message_recipient.success = True
+            message_recipient.save()
             time.sleep(random.randint(30, 60))

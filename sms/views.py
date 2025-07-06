@@ -1,6 +1,6 @@
 from rest_framework.generics import CreateAPIView
 from . import serializers, models
-from .serializers import WhatsAppMessageSerializer
+from .serializers import WhatsAppMessageSerializer, SMSMessageSerializer
 
 
 class SendMessageMixin(CreateAPIView):
@@ -12,4 +12,4 @@ class WhatsAppSendMessages(SendMessageMixin):
 
 
 class SMSSendMessages(SendMessageMixin):
-    serializer_class = WhatsAppMessageSerializer
+    serializer_class = SMSMessageSerializer

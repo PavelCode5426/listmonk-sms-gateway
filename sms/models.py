@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Recipient(models.Model):
     uuid = models.UUIDField(primary_key=True, editable=False)
     email = models.EmailField()
@@ -19,9 +20,12 @@ class Message(models.Model):
     body = models.TextField()
     using = models.CharField(max_length=255, choices=[('SMS', 'sms'), ('WhatsApp', 'whatsapp')])
     content_type = models.CharField(max_length=255)
-    recipients = models.ManyToManyField(Recipient)
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
-    success = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
+class MessageRecipient(models.Model):
+    recipient = models.ForeignKey(Recipient, on_delete=models.CASCADE, related_name='messages')
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='recipients')
+    success = models.BooleanField(default=False)
