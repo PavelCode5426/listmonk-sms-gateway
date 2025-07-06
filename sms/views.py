@@ -1,6 +1,8 @@
+from rest_framework import status
 from rest_framework.generics import CreateAPIView
-from . import serializers, models
+from . import models
 from .serializers import WhatsAppMessageSerializer, SMSMessageSerializer
+from rest_framework.response import Response
 
 
 class SendMessageMixin(CreateAPIView):
@@ -8,7 +10,11 @@ class SendMessageMixin(CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         print(request.data)
-        return super(SendMessageMixin, self).create(request, *args, **kwargs)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
 
 
 class WhatsAppSendMessages(SendMessageMixin):
