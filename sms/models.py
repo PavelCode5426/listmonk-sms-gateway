@@ -12,7 +12,7 @@ class Recipient(models.Model):
 class Campaign(models.Model):
     uuid = models.UUIDField(primary_key=True, editable=False)
     name = models.CharField(max_length=255)
-    tags = models.JSONField(default=list)
+    tags = models.JSONField(default=list, blank=True,null=True)
 
 
 class Message(models.Model):
