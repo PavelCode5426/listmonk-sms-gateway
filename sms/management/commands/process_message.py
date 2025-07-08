@@ -38,9 +38,12 @@ class Command(BaseCommand):
 
     def process_sms(self, message, recipients):
         service = self.services['sms']
-        for recipient in recipients:
+        for message_recipient in recipients:
+            recipient = message_recipient.recipient
             cellnumber = recipient.attribs.get('phone')
             response = service.sendMessage(message.body, cellnumber)
+            message_recipient.success = True
+            message_recipient.save()
 
     def process_whatsapp(self, message, recipients):
         service = self.services['whatsapp']
