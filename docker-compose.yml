@@ -1,7 +1,7 @@
 version: '3.3'
 
 services:
-  api:
+  app:
     container_name: sms-gateway
     restart: always
     build:
@@ -11,20 +11,32 @@ services:
     env_file:
       - .env
     depends_on:
-      - mysql
+      - db
     environment:
-      DB_HOST: mysql
+      DB_HOST: db
       DB_PORT: 3306
       DB_NAME: sms_gateway
       DB_USER: root
       DB_PASSWORD: root_password
+    networks:
+      - listmonk_listmonk
+      - sms-gateway-net
 
   mysql:
     container_name: sms-gateway-db
-    image: mysql:8.0
+    image: mysql:8.0-debian
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: sms_gateway
     volumes:
       - ./data:/var/lib/mysql
+    networks:
+      - sms-gateway-net
+
+networks:
+  sms-gateway-net:
+    name: sms-gateway-net
+    driver: bridge
+  listmonk_listmonk:
+    external: true
