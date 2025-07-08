@@ -89,7 +89,7 @@ DATABASES = {
             "PASSWORD": env("DB_PASSWORD"),
             "ATOMIC_REQUEST": True,
         }
-        if env("DATABASE_HOST", default=None)
+        if env("DB_HOST", default=None)
         else {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",
