@@ -7,6 +7,7 @@ djangorestframework==3.16.0
 environ==1.0
 idna==3.10
 injector==0.22.0
+mysqlclient==2.2.7
 requests==2.32.4
 sqlparse==0.5.3
 tzdata==2025.2
