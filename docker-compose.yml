@@ -19,8 +19,8 @@ services:
       DB_USER: root
       DB_PASSWORD: root_password
     networks:
-      listmonk_listmonk:
-      sms-gateway-net:
+      - listmonk_listmonk
+      - sms-gateway-net
 
   mysql:
     container_name: sms-gateway-db
@@ -32,9 +32,10 @@ services:
     volumes:
       - ./data:/var/lib/mysql
     networks:
-      sms-gateway-net:
+      - sms-gateway-net
 
 networks:
   sms-gateway-net:
+    driver: bridge
   listmonk_listmonk:
     external: true
