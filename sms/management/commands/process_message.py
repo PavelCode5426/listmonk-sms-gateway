@@ -42,6 +42,7 @@ class Command(BaseCommand):
             recipient = message_recipient.recipient
             cellnumber = recipient.attribs.get('phone')
             response = service.sendMessage(message.body, cellnumber)
+            print(response)
             message_recipient.success = True
             message_recipient.save()
 
