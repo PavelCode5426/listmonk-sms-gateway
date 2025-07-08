@@ -13,7 +13,7 @@ services:
     depends_on:
       - mysql
     environment:
-      DB_HOST: sms-gateway-db
+      DB_HOST: mysql
       DB_PORT: 3306
       DB_NAME: sms_gateway
       DB_USER: root
