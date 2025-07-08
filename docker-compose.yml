@@ -34,9 +34,8 @@ services:
     networks:
       sms-gateway-net:
 
-volumes:
-  mysql_data:
 networks:
   sms-gateway-net:
+    name:'sms-gateway-net'
   listmonk_listmonk:
     external: true
