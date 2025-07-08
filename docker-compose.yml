@@ -15,8 +15,8 @@ services:
     environment:
       DB_HOST: sms-gateway-db
       DB_PORT: 3306
-      DB_DATABASE: sms_gateway
-      DB_USERNAME: root
+      DB_NAME: sms_gateway
+      DB_USER: root
       DB_PASSWORD: root_password
     networks:
       listmonk_listmonk:
