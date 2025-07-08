@@ -1,7 +1,7 @@
 version: '3.3'
 
 services:
-  api:
+  app:
     container_name: sms-gateway
     restart: always
     build:
@@ -13,7 +13,7 @@ services:
     depends_on:
       - mysql
     environment:
-      DB_HOST: sms-gateway-db
+      DB_HOST: db
       DB_PORT: 3306
       DB_NAME: sms_gateway
       DB_USER: root
@@ -22,7 +22,7 @@ services:
       - listmonk_listmonk
       - sms-gateway-net
 
-  mysql:
+  db:
     container_name: sms-gateway-db
     image: mysql:8.0
     restart: always
@@ -36,6 +36,7 @@ services:
 
 networks:
   sms-gateway-net:
+    name: sms-gateway-net
     driver: bridge
   listmonk_listmonk:
     external: true
